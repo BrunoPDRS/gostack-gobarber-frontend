@@ -1,6 +1,7 @@
 import React from "react";
 import { FiLogIn, FiMail, FiLock } from "react-icons/fi";
 
+import { Link } from "react-router-dom";
 import logoImg from "../../assets/logo.svg";
 
 import Input from "../../components/Input";
@@ -29,10 +30,10 @@ const SignIn: React.FC = () => (
         <a href="forgot">Esqueci minha senha</a>
       </form>
 
-      <a href="login">
+      <Link to="register">
         <FiLogIn />
         Criar conta
-      </a>
+      </Link>
     </Content>
 
     <Background />
