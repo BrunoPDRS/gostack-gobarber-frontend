@@ -5,11 +5,15 @@ import Routes from "./routes";
 
 import GlobalStyle from "./styles/global";
 
+import AuthContext from "./context/AuthContext";
+
 const App: React.FC = () => (
   <>
-    <BrowserRouter>
-      <Routes />
-    </BrowserRouter>
+    <AuthContext.Provider value={{ name: "Bruno" }}>
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
+    </AuthContext.Provider>
     <GlobalStyle />
   </>
 );
