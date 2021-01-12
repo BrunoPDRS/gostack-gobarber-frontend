@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Form } from "@unform/web";
 import { FormHandles } from "@unform/core";
 
-import AuthContext from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import getValidationErrors from "../../utils/getValidationErrors";
 
 import logoImg from "../../assets/logo.svg";
@@ -23,28 +23,36 @@ interface LoginData {
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
-  const auth = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
 
-  const handleSubmit = useCallback(async (data: LoginData): Promise<void> => {
-    try {
-      formRef.current?.setErrors({});
+  const handleSubmit = useCallback(
+    async (data: LoginData): Promise<void> => {
+      try {
+        formRef.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required("Email não preenchido")
-          .email("Digite um email válido"),
-        password: Yup.string().required("Senha não preenchida"),
-      });
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required("Email não preenchido")
+            .email("Digite um email válido"),
+          password: Yup.string().required("Senha não preenchida"),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-    } catch (err) {
-      const errors = getValidationErrors(err);
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      formRef.current?.setErrors(errors);
-    }
-  }, []);
+        signIn({
+          email: data.email,
+          password: data.password,
+        });
+      } catch (err) {
+        const errors = getValidationErrors(err);
+
+        formRef.current?.setErrors(errors);
+      }
+    },
+    [signIn]
+  );
 
   return (
     <Container>
